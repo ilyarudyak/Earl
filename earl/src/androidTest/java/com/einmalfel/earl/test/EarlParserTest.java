@@ -4,6 +4,8 @@ import android.test.AndroidTestCase;
 import android.util.Log;
 
 import com.einmalfel.earl.EarlParser;
+import com.einmalfel.earl.Feed;
+import com.einmalfel.earl.Item;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -49,12 +51,20 @@ public class EarlParserTest extends AndroidTestCase {
         new Scanner(reference, "UTF-8").useDelimiter("\\A").next());
   }
 
-  public void testMediaRSS() throws Exception {
-    InputStream sample = getContext().getAssets().open("samples/media-rss.xml");
-    InputStream reference = getContext().getAssets().open("references/media-rss.json");
-    assertEquals(
-        objectToJson(EarlParser.parseOrThrow(sample, 0)),
-        new Scanner(reference, "UTF-8").useDelimiter("\\A").next());
+//  public void testMediaRSS() throws Exception {
+//    InputStream sample = getContext().getAssets().open("samples/media-rss.xml");
+//    InputStream reference = getContext().getAssets().open("references/media-rss.json");
+//    assertEquals(
+//        objectToJson(EarlParser.parseOrThrow(sample, 0)),
+//        new Scanner(reference, "UTF-8").useDelimiter("\\A").next());
+//  }
+
+  public void testImageParsing() throws Exception {
+      InputStream sample = getContext().getAssets().open("samples/yahoo-mostviewed.xml");
+      Feed feed = EarlParser.parseOrThrow(sample, 0);
+      Item item = feed.getItems().get(0);
+      Log.d(TAG, "just test");
+      Log.d(TAG, item.getImageLink());
   }
 
   private String objectToJson(Object object) throws JsonProcessingException {
