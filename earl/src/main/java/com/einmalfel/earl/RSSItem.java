@@ -189,6 +189,15 @@ public class RSSItem implements Item {
     }
     if (media != null && !media.thumbnails.isEmpty()) {
       return media.thumbnails.get(0).url.toString();
+    } else if (media != null && !media.contents.isEmpty()
+            && media.contents.size() > 0) {
+
+      String type = media.contents.get(0).type;
+      URL url = media.contents.get(0).url;
+      if (type != null && type.equals("image/jpeg") && url != null) {
+        return url.toString();
+      }
+
     }
     return null;
   }
